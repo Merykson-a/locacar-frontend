@@ -21,14 +21,14 @@
                 <v-icon>mdi-{{ `chevron-${isMiniVariant ? 'right' : 'left'}` }}</v-icon>
             </v-btn>
 
-            <v-toolbar-title v-text="title" />
+            <v-toolbar-title v-text="globalTitle" />
             <v-spacer />
 
-            <v-switch label="Modo noturno" :value="true" @change="onChangeTheme()" hide-details></v-switch>
+            <v-switch label="Modo noturno" v-model="isDarkMode" hide-details></v-switch>
         </v-app-bar>
 
         <v-main>
-            <v-container class="ma-5">
+            <v-container class="pa-10" fluid>
                 <router-view />
             </v-container>
         </v-main>
@@ -41,6 +41,8 @@
 
 <script>
 import RoutePath from '@/router/RoutePath';
+
+import { GlobalTitleHandler } from '@/store/modules/globalTitle';
 
 export default {
     data: () => ({
@@ -76,13 +78,22 @@ export default {
                 to: RoutePath.RENTS
             }
         ],
-        isMiniVariant: false,
-        title: 'Locacar'
+        isMiniVariant: false
     }),
 
-    methods: {
-        onChangeTheme() {
-            this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
+    computed: {
+        isDarkMode: {
+            get() {
+                return this.$vuetify.theme.dark;
+            },
+
+            set() {
+                this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
+            }
+        },
+
+        globalTitle() {
+            return GlobalTitleHandler.get(this);
         }
     }
 };

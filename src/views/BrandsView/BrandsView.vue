@@ -1,53 +1,36 @@
 <template>
-    <v-app dark>
-        <template>
-            <v-data-table :headers="headers" :items="desserts" :items-per-page="5" class="elevation-1">
-                <!-- ="{ item }" -->
-                <template #[`item.actions`]>
-                    <detail-icon-button></detail-icon-button>
-                    <edit-icon-button></edit-icon-button>
-                    <remove-icon-button></remove-icon-button>
-                </template>
-            </v-data-table>
-        </template>
-    </v-app>
+    <v-card class="elevation-5">
+        <v-card-title class="d-flex justify-space-between align-center">
+            <v-btn style="max-width: 30%" color="blue" dark>Nova marca</v-btn>
+            <v-text-field
+                v-model="search"
+                append-icon="mdi-magnify"
+                label="Search"
+                single-line
+                hide-details
+                style="max-width: 30%"
+            ></v-text-field>
+        </v-card-title>
+
+        <brands-table :search="search"></brands-table>
+    </v-card>
 </template>
+
 <script>
-import DetailIconButton from '@/components/button/icon/DetailIconButton';
-import EditIconButton from '@/components/button/icon/EditIconButton';
-import RemoveIconButton from '@/components/button/icon/RemoveIconButton';
+import BrandsTable from './components/BrandsTable.vue';
+import { GlobalTitleHandler } from '@/store/modules/globalTitle';
 
 export default {
     components: {
-        'detail-icon-button': DetailIconButton,
-        'edit-icon-button': EditIconButton,
-        'remove-icon-button': RemoveIconButton
+        'brands-table': BrandsTable
     },
 
     data: () => ({
-        headers: [
-            {
-                text: 'Nome',
-                align: 'start',
-                value: 'name'
-            },
-            { text: 'Fabricante', value: 'manufacturer' },
-            {
-                align: 'end',
-                sortable: false,
-                value: 'actions'
-            }
-        ],
-        desserts: [
-            {
-                name: 'Frozen Yogurt',
-                calories: 159,
-                fat: 6.0,
-                carbs: 24,
-                protein: 4.0,
-                iron: '1%'
-            }
-        ]
-    })
+        search: ''
+    }),
+
+    created() {
+        GlobalTitleHandler.set(this, 'Locacar - Marcas');
+    }
 };
 </script>

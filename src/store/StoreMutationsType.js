@@ -1,4 +1,3 @@
 export default {
-    SET_USER: 'SET_USER',
-    SET_TOKEN: 'SET_TOKEN'
+    SET_GLOBAL_TITLE: 'SET_GLOBAL_TITLE'
 };
